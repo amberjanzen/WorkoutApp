@@ -1,23 +1,24 @@
 require('dotenv').config();
-let express = require ('express');
+const express = require ('express');
 //const { response } = require('express');
-let app = express();
-let sequelize= require('./db')
+const app = express();
+const sequelize= require('./db');
 
-let workout =
-require('./controllers/workoutcontroller');
-let user= require('./controllers/usercontroller');
+
+
 
 sequelize.sync();
 //sequelize.sync({force: true})
 app.use(express.json());
+app.use(require('./middleware/headers'))
 
+const user= require('./controllers/usercontroller');
 app.use('/user', user);
 
-app.use(require("./middleware/validate-session"));
+const workout =require('./controllers/workoutcontroller');
 app.use('/workout', workout);
 
 
-app.listen(3000, function(){
-    console.log('App is listening on port 3000');
+app.listen(4000, function(){
+    console.log('App is listening on port 4000');
 })
